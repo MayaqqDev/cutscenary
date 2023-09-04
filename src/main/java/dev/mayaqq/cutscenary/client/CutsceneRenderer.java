@@ -11,6 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CutsceneRenderer {
@@ -26,9 +27,13 @@ public class CutsceneRenderer {
     static boolean shouldContinue = true;
     static String fullText = "";
 
+    private static boolean escPressed(MinecraftClient client) {
+        return GLFW.glfwGetKey(client.getWindow().getHandle(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS;
+    }
+
     public static void init() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (GLFW.glfwGetKey(client.getWindow().getHandle(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS && cutSceneInProgress) {
+            if (escPressed(client) && cutSceneInProgress) {
                 cutSceneBuffer.clear();
                 cutSceneInProgress = false;
                 cutScenePhase = 0;
@@ -52,17 +57,15 @@ public class CutsceneRenderer {
             if (cutSceneInProgress) {
                 duration++;
                 renderTick++;
-                if (renderTick == 5) {
-                    renderTick = 0;
-                }
+                if (renderTick == 5) renderTick = 0;
                 MinecraftClient client = MinecraftClient.getInstance();
                 client.options.hudHidden = false;
 
                 int windowWidth = client.getWindow().getScaledWidth();
                 int windowHeight = client.getWindow().getScaledHeight();
 
-                int white = 0xFFFFFFFF;
-                int black = 0x80000000;
+                int white = Color.WHITE.getRGB();
+                int black = Color.BLACK.getRGB();
 
                 client.getFramebuffer().beginWrite(false);
                 RenderSystem.enableDepthTest();
@@ -81,15 +84,12 @@ public class CutsceneRenderer {
                         textPhase++;
                     }
                 }
-                if (CutscenaryConfig.INSTANCE.cutSceneTextCentered) {
-                    matrices.drawCenteredTextWithShadow(textRenderer, text, windowWidth / 2, windowHeight / 2 - 20, white);
-                } else {
-                    int center = windowWidth / 2 - textRenderer.getWidth(fullText) / 2;
-                    matrices.drawText(textRenderer, text, center, windowHeight / 2 - 20, white, true);
-                }
+
+                int x = CutscenaryConfig.INSTANCE.cutSceneTextCentered ? windowWidth / 2 - (textRenderer.getWidth(text) / 2) : windowWidth / 2 - textRenderer.getWidth(fullText) / 2;
+                matrices.drawTextWithShadow(textRenderer, text, x, windowHeight / 2 - 20, white);
 
                 String pressText = "Press " + CutscenaryKeybinds.cutscene.getBoundKeyLocalizedText().getString() + " to continue";
-                matrices.drawText(textRenderer, pressText, windowWidth - textRenderer.getWidth(pressText) - 5, windowHeight - textRenderer.fontHeight - 5, white, true);
+                matrices.drawTextWithShadow(textRenderer, pressText, windowWidth - textRenderer.getWidth(pressText) - 5, windowHeight - textRenderer.fontHeight - 5, white);
 
                 matrixStack.pop();
                 RenderSystem.disableDepthTest();
