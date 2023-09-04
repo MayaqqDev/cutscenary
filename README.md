@@ -6,7 +6,7 @@
 [![Github](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/available/github_64h.png)](https://github.com/MayaqqDev/cutscenary/)
 ## `Information`
 
-This is a quite simple mod allowing you to add custom **text** cutscenes into your game! Use [Modrinth Maven](https://docs.modrinth.com/maven) if you want to use this in your mod, for example of how to use the code, you can look at [this example mod]().
+This is a quite simple mod allowing you to add custom **text** cutscenes into your game! Use [Modrinth Maven](https://docs.modrinth.com/maven) if you want to use this in your mod, for example of how to use the code, you can look at [this example](https://github.com/MayaqqDev/cutscenary/tree/master/src/main/java/dev/mayaqq/example).
 
 ## `Community`
 
