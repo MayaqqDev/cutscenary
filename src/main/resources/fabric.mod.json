@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "cutscenary",
+  "version": "${version}",
+  "name": "Cutscenary",
+  "description": "Allows you to make text cutscenes in game!",
+  "authors": [
+    "Mayaqq"
+  ],
+  "contact": {
+    "repo": "https://github.com/MayaqqDev/Cutscenary"
+  },
+  "license": "LGPL-3.0",
+  "icon": "assets/cutscenary/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.mayaqq.cutscenary.client.CutscenaryClient"
+    ],
+    "main": [
+      "dev.mayaqq.cutscenary.Cutscenary",
+      "dev.mayaqq.example.ExampleCutsceneMod"
+    ],
+    "modmenu": [
+      "dev.mayaqq.cutscenary.compat.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "cutscenary.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": ">=${minecraft_version}"
+  }
+}
