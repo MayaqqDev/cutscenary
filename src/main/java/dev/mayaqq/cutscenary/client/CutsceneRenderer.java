@@ -64,8 +64,8 @@ public class CutsceneRenderer {
                 int windowWidth = client.getWindow().getScaledWidth();
                 int windowHeight = client.getWindow().getScaledHeight();
 
-                int white = Color.WHITE.getRGB();
-                int black = Color.BLACK.getRGB();
+                int white = 0xFFFFFFFF;
+                int black = 0x80000000;
 
                 client.getFramebuffer().beginWrite(false);
                 RenderSystem.enableDepthTest();
@@ -80,8 +80,25 @@ public class CutsceneRenderer {
                     if (textPhase == fullText.length()) {
                         shouldContinue = false;
                     } else {
-                        text += fullText.charAt(textPhase);
-                        textPhase++;
+                        char c = fullText.charAt(textPhase);
+                        if (c == '<' && fullText.substring(textPhase).contains(">")) {
+                            while (fullText.charAt(textPhase) != '>' && textPhase < fullText.length()) {
+                                text += fullText.charAt(textPhase);
+                                textPhase++;
+                            }
+                            for (int i = 0; i < 2; i++) {
+                                text += fullText.charAt(textPhase);
+                                textPhase++;
+                            }
+                        } else if (c == '§') {
+                            for (int i = 0; i < 2; i++) {
+                                text += fullText.charAt(textPhase);
+                                textPhase++;
+                            }
+                        } else {
+                            text += fullText.charAt(textPhase);
+                            textPhase++;
+                        }
                     }
                 }
 

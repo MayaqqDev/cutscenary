@@ -18,6 +18,8 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "maven.modrinth:yacl:${project.yacl_version}"
     modImplementation "maven.modrinth:modmenu:${project.modmenu_version}"
+
+    modRuntimeOnly ("maven.modrinth:text-animator:${project.text_animator_version}")
 }
 
 processResources {
